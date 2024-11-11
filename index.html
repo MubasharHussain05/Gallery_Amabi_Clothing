@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery with Lightbox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic container styles */
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Center section for title */
+        .center-section {
+            width: 100%;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+
+        /* Title styles */
+        .heading {
+            font-weight: bold;
+            font-size: 3rem;
+            color: #FCAF17;
+        }
+
+        .link-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Link styles */
+        .link {
+            color: white;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            color: #6e6c6c;
+        }
+
+        /* Outer and inner container for gallery */
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .inner-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 2400px;
+            margin: 40px;
+        }
+
+        /* Gallery item styling with hover effect */
+        .gallery-item img {
+            width: 100%;
+            height: 500px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            opacity: 0.9; /* Change opacity on hover */
+            z-index: 5; /* Ensure hover effect does not interfere with lightbox */
+            background-color: black;
+        }
+
+        /* Lightbox styling */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .image-number-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+}
+
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        /* Navbar for lightbox */
+        .lightbox-navbar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lightbox-navbar button {
+            background: transparent;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Image number display */
+        .image-number {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Navigation icons */
+        .nav-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 50px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* Social Media Share */
+        .social-share {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            gap: 15px;
+            z-index: 1001;
+        }
+
+        .social-share a {
+            color: white;
+            font-size: 20px;
+        }
+
+        .social-share a:hover {
+            color: #FCAF17;
+        }
+
+        @media (max-width: 1200px) {
+            .inner-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .inner-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .inner-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .inner-container {
+                grid-template-columns: 1fr;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <div class="center-section">
+            <h1 class="heading">Gallery</h1>
+            <div class="link-container">
+                <a href="/" class="link">Home</a>
+                <p>/</p>
+                <p>Gallery</p>
+            </div>
+        </div>
+
+        <div class="outer-container">
+            <div class="inner-container">
+                <!-- Gallery images -->
+                <div class="gallery-item"><img src="image/image1.png" onclick="openLightbox(this.src, 1)"></div>
+                <div class="gallery-item"><img src="image/image2.png" onclick="openLightbox(this.src, 2)"></div>
+                <div class="gallery-item"><img src="image/image3.png" onclick="openLightbox(this.src, 3)"></div>
+                <div class="gallery-item"><img src="image/image4.png" onclick="openLightbox(this.src, 4)"></div>
+                <div class="gallery-item"><img src="image/image5.png" onclick="openLightbox(this.src, 5)"></div>
+                <div class="gallery-item"><img src="image/image6.png" onclick="openLightbox(this.src, 6)"></div>
+                <div class="gallery-item"><img src="image/image7.png" onclick="openLightbox(this.src, 7)"></div>
+                <div class="gallery-item"><img src="image/image8.png" onclick="openLightbox(this.src, 8)"></div>
+                <div class="gallery-item"><img src="image/image9.png" onclick="openLightbox(this.src, 9)"></div>
+                <div class="gallery-item"><img src="image/image10.png" onclick="openLightbox(this.src, 10)"></div>
+                <div class="gallery-item"><img src="image/image11.png" onclick="openLightbox(this.src, 11)"></div>
+                <div class="gallery-item"><img src="image/image12.png" onclick="openLightbox(this.src, 12)"></div>
+                <div class="gallery-item"><img src="image/image13.png" onclick="openLightbox(this.src, 13)"></div>
+                <div class="gallery-item"><img src="image/image14.png" onclick="openLightbox(this.src, 14)"></div>
+                <div class="gallery-item"><img src="image/image15.png" onclick="openLightbox(this.src, 15)"></div>
+                <div class="gallery-item"><img src="image/image16.png" onclick="openLightbox(this.src, 16)"></div>
+                <div class="gallery-item"><img src="image/image17.png" onclick="openLightbox(this.src, 17)"></div>
+                <div class="gallery-item"><img src="image/image18.png" onclick="openLightbox(this.src, 18)"></div>
+                <div class="gallery-item"><img src="image/image19.png" onclick="openLightbox(this.src, 19)"></div>
+                <div class="gallery-item"><img src="image/image20.png" onclick="openLightbox(this.src, 20)"></div>
+                <div class="gallery-item"><img src="image/image21.png" onclick="openLightbox(this.src, 21)"></div>
+                <div class="gallery-item"><img src="image/image22.png" onclick="openLightbox(this.src, 22)"></div>
+                <div class="gallery-item"><img src="image/image23.png" onclick="openLightbox(this.src, 23)"></div>
+                <div class="gallery-item"><img src="image/image24.png" onclick="openLightbox(this.src, 24)"></div>
+                <div class="gallery-item"><img src="image/image25.png" onclick="openLightbox(this.src, 25)"></div>
+                <div class="gallery-item"><img src="image/image26.png" onclick="openLightbox(this.src, 26)"></div>
+                <div class="gallery-item"><img src="image/image27.png" onclick="openLightbox(this.src, 27)"></div>
+                <div class="gallery-item"><img src="image/image28.png" onclick="openLightbox(this.src, 28)"></div>
+                <div class="gallery-item"><img src="image/image29.png" onclick="openLightbox(this.src, 29)"></div>
+                <div class="gallery-item"><img src="image/image30.png" onclick="openLightbox(this.src, 30)"></div>
+                <!-- Add other images similarly -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img id="lightbox-image" src="">
+        <!-- Navbar with icons for actions -->
+        <div class="lightbox-navbar">
+            <button onclick="zoomIn()">🔍+</button>
+            <button onclick="zoomOut()">🔍-</button>
+            <button onclick="toggleFullscreen()">⛶</button>
+            <button onclick="toggleShare()"><i class="fa-solid fa-share"></i></button>
+            <button onclick="closeLightbox()">✖</button>
+        </div>
+
+        <div class="image-number" id="image-number"></div>
+        <div class="image-number-left" id="image-number-left"></div>
+
+        <!-- Navigation icons for next and previous -->
+        <i class="fas fa-chevron-left nav-icon prev" onclick="prevImage()" aria-label="Previous Image"></i>
+        <i class="fas fa-chevron-right nav-icon next" onclick="nextImage()" aria-label="Next Image"></i>
+        
+        <!-- Social Media Share Links -->
+        <div class="social-share" id="social-share">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=#" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/intent/tweet?url=#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/shareArticle?url=#" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:?subject=Check this out&body=#"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const totalImages = 30; // Total number of images
+
+        // Open lightbox
+        function openLightbox(src, index) {
+            currentIndex = index;
+            document.getElementById('lightbox-image').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+            document.getElementById('image-number').textContent = `${totalImages} (${currentIndex})`;
+            document.getElementById('image-number-left').textContent = `${totalImages} (${currentIndex})`;
+
+            // Update social media links
+            const shareLinks = document.querySelectorAll('#social-share a');
+            shareLinks.forEach(link => link.href = link.href.replace('#', encodeURIComponent(src)));
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Next image
+        function nextImage() {
+            currentIndex = (currentIndex % totalImages) + 1;
+            updateLightboxImage();
+        }
+
+        // Previous image
+        function prevImage() {
+            currentIndex = (currentIndex - 2 + totalImages) % totalImages + 1;
+            updateLightboxImage();
+        }
+
+        // Update lightbox image
+        function updateLightboxImage() {
+            const src = `image/image${currentIndex}.png`;
+            document.getElementById('lightbox-image').src = src;
+            document.getElementById('image-number').textContent = `${totalImages} (${currentIndex})`;
+            document.getElementById('image-number-left').textContent = `${totalImages} (${currentIndex})`;
+            
+        }
+
+        // Zoom functionality
+        function zoomIn() {
+            let img = document.getElementById('lightbox-image');
+            let currentSize = parseFloat(window.getComputedStyle(img).getPropertyValue('width'));
+            img.style.width = `${currentSize * 1.1}px`;
+        }
+
+        function zoomOut() {
+            let img = document.getElementById('lightbox-image');
+            let currentSize = parseFloat(window.getComputedStyle(img).getPropertyValue('width'));
+            img.style.width = `${currentSize / 1.1}px`;
+        }
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            let elem = document.getElementById('lightbox');
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Toggle share icons
+        function toggleShare() {
+            const socialShare = document.getElementById('social-share');
+            socialShare.style.display = socialShare.style.display === 'none' ? 'flex' : 'none';
+        }
+    </script>
+</body>
+</html>
